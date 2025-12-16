@@ -1,0 +1,43 @@
+_commit: v1.12.1-9-g5863ce6
+_src_path: /Users/crthomas/code/charlesthomas/homelab-template
+additionalResources: ''
+backups: false
+helm: false
+homepageDescription: Media Transcoder
+homepageEnabled: true
+homepageGroup: Media
+homepageIcon: tdarr
+homepageName: Tdarr
+ingClass: nginx-internal
+ingCname: ''
+ingExtraAnnotations: ''
+ingHost: tdarr.crt.house
+ingName: tdarr
+ingPathType: Prefix
+ingWebSockets: false
+ingress: true
+labels: 'app: tdarr'
+name: tdarr
+namespace: tdarr
+pvc: true
+pvcAccessMode: ReadWriteOnce
+pvcName: tdarr
+pvcSize: 5Gi
+pvcStorageClass: longhorn
+reloader: false
+resources:
+- deployments.yaml
+- ingresses.yaml
+- pvcs.yaml
+- services.yaml
+service: true
+serviceAccount: false
+svcName: tdarr
+svcPortName: http
+svcPortNum: 8265
+svcProtocol: TCP
+svcSelector: 'app: tdarr'
+svcTargetPort: http
+svcType: ClusterIP
+upstreamURL: https://tdarr.io/
+url: https://github.com/charlesthomas/homelab-tdarr
