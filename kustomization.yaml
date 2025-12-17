@@ -8,12 +8,18 @@ commonAnnotations:
 commonLabels:
   app: tdarr
 
+images:
+- name: tdarr
+  newName: ghcr.io/haveagitgat/tdarr
+  newTag: 2.58.02
+
 resources:
 - resources/deployments.yaml
 - resources/ingresses.yaml
 - resources/namespaces.yaml
 - resources/pvcs.yaml
 - resources/services.yaml
+
 patches:
 - patch: |-
     apiVersion: networking.k8s.io/v1

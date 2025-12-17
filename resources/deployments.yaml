@@ -1,0 +1,70 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tdarr
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: tdarr
+  template:
+    metadata:
+      labels:
+        app: tdarr
+    spec:
+      containers:
+        - name: tdarr
+          image: tdarr
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: America/Detroit
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: internalNode
+              value: "true"
+            - name: inContainer
+              value: "true"
+            - name: ffmpegVersion
+              value: "7"
+            - name: auth
+              value: "false"
+            - name: openBrowser
+              value: "true"
+            - name: maxLogSizeMB
+              value: "10"
+            - name: cronPluginUpdate
+              value: ""
+            - name: serverIP
+              value: "0.0.0.0"
+            - name: serverPort
+              value: "8266"
+            - name: webUIPort
+              value: "8265"
+          ports:
+            - name: http
+              containerPort: 8265
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /app/configs
+              name: config
+            - mountPath: /media
+              name: media
+          resources:
+            requests:
+              gpu.intel.com/i915: "1"
+            limits:
+              gpu.intel.com/i915: "1"
+              memory: 4Gi
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: tdarr
+      - name: media
+        nfs:
+          path: /volume1/media
+          server: 192.168.1.21
