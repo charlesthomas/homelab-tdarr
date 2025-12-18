@@ -50,8 +50,8 @@ spec:
               containerPort: 8265
               protocol: TCP
           volumeMounts:
-            - mountPath: /app/configs
-              name: config
+            - mountPath: /app/server
+              name: data
             - mountPath: /media
               name: media
           resources:
@@ -61,7 +61,7 @@ spec:
               gpu.intel.com/i915: "1"
               memory: 4Gi
       volumes:
-      - name: config
+      - name: data
         persistentVolumeClaim:
           claimName: tdarr
       - name: media
