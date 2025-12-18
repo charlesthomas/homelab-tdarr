@@ -103,7 +103,7 @@ spec:
             - name: PGID
               value: "1000"
             - name: serverURL
-              value: tdarr-server.tdarr.svc.cluster.local
+              value: tdarr-server.tdarr.svc.cluster.local:8266
             - name: transcodegpuWorkers
               value: "1"
             - name: transcodecpuWorkers
