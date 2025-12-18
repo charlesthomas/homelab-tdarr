@@ -51,7 +51,9 @@ spec:
               protocol: TCP
           volumeMounts:
             - mountPath: /app/server
-              name: data
+              name: server
+            - mountPath: /app/configs
+              name: configs
             - mountPath: /media
               name: media
           resources:
@@ -61,9 +63,12 @@ spec:
               gpu.intel.com/i915: "1"
               memory: 4Gi
       volumes:
-      - name: data
+      - name: server
         persistentVolumeClaim:
           claimName: tdarr
+      - name: configs
+        persistentVolumeClaim:
+          claimName: tdarr-configs
       - name: media
         nfs:
           path: /volume1/media
