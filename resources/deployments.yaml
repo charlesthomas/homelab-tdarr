@@ -91,6 +91,13 @@ spec:
       labels:
         app: tdarr-node
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/etcd
+                operator: DoesNotExist
       containers:
         - name: tdarr
           image: tdarr-node
