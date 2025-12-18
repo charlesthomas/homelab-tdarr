@@ -9,8 +9,11 @@ commonLabels:
   app: tdarr
 
 images:
-- name: tdarr
+- name: tdarr-server
   newName: ghcr.io/haveagitgat/tdarr
+  newTag: 2.58.02
+- name: tdarr-node
+  newName: ghcr.io/haveagitgat/tdarr_node
   newTag: 2.58.02
 
 resources:

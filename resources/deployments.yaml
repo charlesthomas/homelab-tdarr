@@ -2,21 +2,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tdarr
+  name: tdarr-server
+  namespace: tdarr
 spec:
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      app: tdarr
+      app: tdarr-server
   template:
     metadata:
       labels:
-        app: tdarr
+        app: tdarr-server
     spec:
       containers:
         - name: tdarr
-          image: tdarr
+          image: tdarr-server
           imagePullPolicy: IfNotPresent
           env:
             - name: TZ
@@ -26,7 +27,7 @@ spec:
             - name: PGID
               value: "1000"
             - name: internalNode
-              value: "true"
+              value: "false"
             - name: inContainer
               value: "true"
             - name: ffmpegVersion
@@ -34,7 +35,7 @@ spec:
             - name: auth
               value: "false"
             - name: openBrowser
-              value: "true"
+              value: "false"
             - name: maxLogSizeMB
               value: "10"
             - name: cronPluginUpdate
@@ -49,6 +50,9 @@ spec:
             - name: http
               containerPort: 8265
               protocol: TCP
+            - name: tdarr-server
+              containerPort: 8266
+              protocol: TCP
           volumeMounts:
             - mountPath: /app/server
               name: server
@@ -57,10 +61,7 @@ spec:
             - mountPath: /media
               name: media
           resources:
-            requests:
-              gpu.intel.com/i915: "1"
             limits:
-              gpu.intel.com/i915: "1"
               memory: 4Gi
       volumes:
       - name: server
@@ -73,3 +74,63 @@ spec:
         nfs:
           path: /volume1/media
           server: 192.168.1.21
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tdarr-node
+  namespace: tdarr
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: tdarr-node
+  template:
+    metadata:
+      labels:
+        app: tdarr-node
+    spec:
+      containers:
+        - name: tdarr
+          image: tdarr-node
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: TZ
+              value: America/Detroit
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: serverURL
+              value: tdarr-server.tdarr.svc.cluster.local
+            - name: transcodegpuWorkers
+              value: "1"
+            - name: transcodecpuWorkers
+              value: "0"
+            - name: healthcheckgpuWorkers
+              value: "1"
+            - name: healthcheckcpuWorkers
+              value: "0"
+            - name: inContainer
+              value: "true"
+            - name: ffmpegVersion
+              value: "7"
+            - name: maxLogSizeMB
+              value: "10"
+            - name: cronPluginUpdate
+              value: ""
+          volumeMounts:
+            - mountPath: /media
+              name: media
+          resources:
+            requests:
+              gpu.intel.com/i915: "1"
+            limits:
+              gpu.intel.com/i915: "1"
+      volumes:
+      - name: media
+        nfs:
+          path: /volume1/media
+          server: 192.168.1.21
+
