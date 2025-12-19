@@ -111,6 +111,10 @@ spec:
               value: "1000"
             - name: serverURL
               value: http://tdarr-server.tdarr.svc.cluster.local:8266
+            - name: nodeName
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
             - name: transcodegpuWorkers
               value: "1"
             - name: transcodecpuWorkers
