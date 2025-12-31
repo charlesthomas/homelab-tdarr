@@ -138,6 +138,7 @@ spec:
             requests:
               gpu.intel.com/i915: "1"
             limits:
+              cpu: "2"
               gpu.intel.com/i915: "1"
       volumes:
       - name: media
