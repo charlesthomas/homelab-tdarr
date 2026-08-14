@@ -11,10 +11,10 @@ commonLabels:
 images:
 - name: tdarr-server
   newName: ghcr.io/haveagitgat/tdarr
-  newTag: 2.58.02
+  newTag: 2.86.01
 - name: tdarr-node
   newName: ghcr.io/haveagitgat/tdarr_node
-  newTag: 2.58.02
+  newTag: 2.86.01
 
 resources:
 - resources/deployments.yaml
