@@ -5,8 +5,10 @@ namespace: tdarr
 
 commonAnnotations:
   repo: https://github.com/charlesthomas/homelab-tdarr
-commonLabels:
-  app: tdarr
+labels:
+- includeSelectors: true
+  pairs:
+    app: tdarr
 
 images:
 - name: tdarr-server
