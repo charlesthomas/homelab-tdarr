@@ -5,8 +5,10 @@ namespace: tdarr
 
 commonAnnotations:
   repo: https://github.com/charlesthomas/homelab-tdarr
-commonLabels:
-  app: tdarr
+labels:
+- includeSelectors: true
+  pairs:
+    app: tdarr
 
 images:
 - name: tdarr-server
@@ -40,3 +42,11 @@ patches:
         gethomepage.dev/pod-selector: ""
   target:
     kind: Ingress
+configMapGenerator:
+- name: grafana-dashboard-tdarr
+  files:
+  - grafana/tdarr.json
+  options:
+    disableNameSuffixHash: true
+    labels:
+      grafana_dashboard: "1"
